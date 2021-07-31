@@ -64,4 +64,30 @@ class BackgroundTaskTest {
         // Assert
         Assert.assertTrue(fakeBackgroundTask.isCancelled())
     }
+
+    @Test
+    fun `Cancelled a running task, and clean onCancelledListener successfully`() {
+        // Arrange
+        var onCancelledCalled = false
+        val fakeBackgroundTask = FakeBackgroundTask(2000)
+        fakeBackgroundTask.onCancelledListener = object : BackgroundTask.OnCancelledListener {
+            override fun onCancelled() {
+                println("fakeBackgroundTask is cancelled")
+                onCancelledCalled = true
+            }
+        }
+
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute(fakeBackgroundTask)
+
+        // Act
+        Thread.sleep(100)
+        fakeBackgroundTask.onCancelledListener = null
+        fakeBackgroundTask.cancel()
+        // Sleep for watch log
+        Thread.sleep(1000)
+
+        // Assert
+        Assert.assertFalse(onCancelledCalled)
+    }
 }

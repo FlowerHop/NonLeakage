@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnable, Cancellable {
     interface OnCancelledListener {
+        @WorkerThread
         fun onCancelled()
     }
 
