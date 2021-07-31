@@ -10,25 +10,21 @@ abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnab
     }
 
     final override var isCancelled: AtomicBoolean private set
-    private val hasDone = AtomicBoolean(false)
+    protected val hasDone = AtomicBoolean(false)
     var onCancelledListener: OnCancelledListener? = null
 
     init {
-        this.onCancelledListener = onCancelled
-    }
-
-    init {
         isCancelled = AtomicBoolean(false)
+        this.onCancelledListener = onCancelled
     }
 
     @WorkerThread
     override fun run() {
         doInBackground();
+        hasDone.set(true)
 
         if (isCancelled())
             onCancelled()
-
-        hasDone.set(true)
     }
 
     fun hasDone(): Boolean = hasDone.get()

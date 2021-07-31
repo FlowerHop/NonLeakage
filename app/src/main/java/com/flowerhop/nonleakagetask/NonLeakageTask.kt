@@ -1,12 +1,19 @@
 package com.flowerhop.nonleakagetask
 
-abstract class NonLeakageTask: BackgroundTask(), Chainable {
-    override fun doInBackground() {
-        doJob()
-        onNext()
+import androidx.annotation.WorkerThread
+
+abstract class NonLeakageTask(onCancelled: OnCancelledListener? = null): BackgroundTask(onCancelled) {
+    @WorkerThread
+    override fun run() {
+        doInBackground()
+        hasDone.set(true)
+        clearUIReferences()
+
+        if (isCancelled())
+            return
     }
 
-    abstract fun doJob()
+    abstract fun clearUIReferences()
 }
 
 interface Chainable {

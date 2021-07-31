@@ -1,4 +1,4 @@
-package com.flowerhop.nonleakagetask
+package com.flowerhop.nonleakagetask.nonleakage
 
 import org.junit.Assert
 import org.junit.Test
@@ -26,5 +26,25 @@ class NonLeakageTaskTest {
 
         // Assert
         Assert.assertTrue(task.isCancelled())
+    }
+
+    @Test
+    fun tasksCanBeChained() {
+        TODO()
+    }
+
+    @Test
+    fun `The chained task can be cancelled`() {
+        TODO("Not yet implemented")
+    }
+
+    @Test
+    fun `Cancel the running task can also stop the chain`() {
+        TODO("Not yet implemented")
+    }
+
+    @Test
+    fun `When the done task is cancelled, the chain can keep running`() {
+        TODO("Not yet implemented")
     }
 }
