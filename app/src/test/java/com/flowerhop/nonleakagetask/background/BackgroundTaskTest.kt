@@ -21,7 +21,7 @@ class BackgroundTaskTest {
     @Test
     fun taskCanBeCancelled() {
         // Arrange
-        val cancelledBackgroundTask = CancelledBackgroundTask()
+        val cancelledBackgroundTask = InterruptedBackgroundTask()
 
         // Act
         cancelledBackgroundTask.run()
@@ -43,12 +43,12 @@ class BackgroundTaskTest {
     }
 
     @Test
-    fun `Task can be cancelled when running`() {
+    fun `Task can be interrupted when running`() {
         // Arrange
         val fakeBackgroundTask = FakeBackgroundTask(2000)
-        fakeBackgroundTask.onCancelledListener = object : BackgroundTask.OnCancelledListener {
-            override fun onCancelled() {
-                println("fakeBackgroundTask is cancelled")
+        fakeBackgroundTask.onInterruptedListener = object : BackgroundTask.OnInterruptedListener {
+            override fun onInterrupted() {
+                println("fakeBackgroundTask is interrupted")
             }
         }
 
@@ -66,13 +66,13 @@ class BackgroundTaskTest {
     }
 
     @Test
-    fun `Cancelled a running task, and clean onCancelledListener successfully`() {
+    fun `Cancelled a running task, and clean onInterruptedListener successfully`() {
         // Arrange
         var onCancelledCalled = false
         val fakeBackgroundTask = FakeBackgroundTask(2000)
-        fakeBackgroundTask.onCancelledListener = object : BackgroundTask.OnCancelledListener {
-            override fun onCancelled() {
-                println("fakeBackgroundTask is cancelled")
+        fakeBackgroundTask.onInterruptedListener = object : BackgroundTask.OnInterruptedListener {
+            override fun onInterrupted() {
+                println("fakeBackgroundTask is interrupted")
                 onCancelledCalled = true
             }
         }
@@ -82,7 +82,7 @@ class BackgroundTaskTest {
 
         // Act
         Thread.sleep(100)
-        fakeBackgroundTask.onCancelledListener = null
+        fakeBackgroundTask.onInterruptedListener = null
         fakeBackgroundTask.cancel()
         // Sleep for watch log
         Thread.sleep(1000)

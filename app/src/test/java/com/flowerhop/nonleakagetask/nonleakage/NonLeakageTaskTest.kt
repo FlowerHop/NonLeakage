@@ -1,7 +1,9 @@
 package com.flowerhop.nonleakagetask.nonleakage
 
+import com.flowerhop.nonleakagetask.OnTaskCompleteListener
 import org.junit.Assert
 import org.junit.Test
+import java.util.concurrent.Executors
 
 class NonLeakageTaskTest {
     @Test
@@ -17,9 +19,9 @@ class NonLeakageTaskTest {
     }
 
     @Test
-    fun taskCanBeCancelled() {
+    fun taskCanBeInterrupted() {
         // Arrange
-        val task = CancelledNonLeakageTask()
+        val task = InterruptedNonLeakageTask()
 
         // Act
         task.run()
@@ -30,21 +32,95 @@ class NonLeakageTaskTest {
 
     @Test
     fun tasksCanBeChained() {
-        TODO()
+        val executors = Executors.newSingleThreadExecutor()
+        val taskA = FakeNonLeakageTask(50, "Task A")
+        val taskB = FakeNonLeakageTask(50, "Task B")
+        val taskC = FakeNonLeakageTask(50, "Task C")
+
+        taskA.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                executors.execute(taskB)
+            }
+        }
+        taskB.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                executors.execute(taskC)
+            }
+        }
+
+        var done = false
+        taskC.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                done = true
+            }
+        }
+
+        executors.execute(taskA)
+        Thread.sleep(300)
+        Assert.assertTrue(done)
     }
 
     @Test
-    fun `The chained task can be cancelled`() {
-        TODO("Not yet implemented")
-    }
+    fun `The chained task can be cancelled when its parent is cancelled`() {
+        val executors = Executors.newSingleThreadExecutor()
+        val taskA = FakeNonLeakageTask(100, "Task A")
+        val taskB = FakeNonLeakageTask(100, "Task B")
+        val taskC = FakeNonLeakageTask(100, "Task C")
 
-    @Test
-    fun `Cancel the running task can also stop the chain`() {
-        TODO("Not yet implemented")
+        taskA.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                executors.execute(taskB)
+            }
+        }
+        taskB.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+
+                executors.execute(taskC)
+            }
+        }
+
+        var done = false
+        taskC.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                done = true
+            }
+        }
+
+        executors.execute(taskA)
+        taskB.cancel()
+        Thread.sleep(500)
+        Assert.assertFalse(done)
     }
 
     @Test
     fun `When the done task is cancelled, the chain can keep running`() {
-        TODO("Not yet implemented")
+        val executors = Executors.newSingleThreadExecutor()
+        val taskA = FakeNonLeakageTask(10, "Task A")
+        val taskB = FakeNonLeakageTask(100, "Task B")
+        val taskC = FakeNonLeakageTask(100, "Task C")
+
+        taskA.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                executors.execute(taskB)
+            }
+        }
+        taskB.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                executors.execute(taskC)
+            }
+        }
+
+        var done = false
+        taskC.onTaskCompleteListener = object : OnTaskCompleteListener {
+            override fun onCompleted() {
+                done = true
+            }
+        }
+
+        executors.execute(taskA)
+        Thread.sleep(110)
+        taskA.cancel()
+        Thread.sleep(500)
+        Assert.assertTrue(done)
     }
 }

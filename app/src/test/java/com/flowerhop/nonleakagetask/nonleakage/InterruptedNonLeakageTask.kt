@@ -2,13 +2,17 @@ package com.flowerhop.nonleakagetask.nonleakage
 
 import com.flowerhop.nonleakagetask.NonLeakageTask
 
-class CancelledNonLeakageTask: NonLeakageTask() {
+class InterruptedNonLeakageTask: NonLeakageTask() {
     companion object {
-        private const val TAG = "CancelledNonLeakageTask"
+        private const val TAG = "InterruptedNonLeakageTask"
     }
 
-    override fun onCancelled() {
-        println("$TAG trigger onCancelled")
+    init {
+        onInterruptedListener = object : OnInterruptedListener {
+            override fun onInterrupted() {
+                println("$TAG trigger onInterrupted")
+            }
+        }
     }
 
     override fun doInBackground() {

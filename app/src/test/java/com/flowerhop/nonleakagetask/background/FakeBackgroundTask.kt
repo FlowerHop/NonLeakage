@@ -3,7 +3,6 @@ package com.flowerhop.nonleakagetask.background
 import com.flowerhop.nonleakagetask.BackgroundTask
 
 
-// test if init with onCancelled but clean it, it would be triggered?
 class FakeBackgroundTask(private val time: Long): BackgroundTask() {
     companion object {
         private const val TAG = "FakeBackgroundTask"
