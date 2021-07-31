@@ -73,3 +73,6 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+# Personal GitHub properties
+github.properties
