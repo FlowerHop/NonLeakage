@@ -22,7 +22,7 @@ abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Ru
     @WorkerThread
     override fun run() {
         if (isCancelled()) return
-        doInBackground();
+        doInBackground()
         hasDone.set(true)
 
         if (isCancelled())
@@ -32,6 +32,7 @@ abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Ru
     }
 
     fun hasDone(): Boolean = hasDone.get()
+
     override fun onCancelled() {
         onInterruptedListener?.onInterrupted()
     }

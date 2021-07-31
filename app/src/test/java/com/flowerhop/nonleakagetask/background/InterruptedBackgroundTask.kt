@@ -18,6 +18,6 @@ class InterruptedBackgroundTask: BackgroundTask() {
     override fun doInBackground() {
         println("$TAG doInBackground...")
         println("$TAG Cancel!")
-        cancel();
+        cancel()
     }
 }

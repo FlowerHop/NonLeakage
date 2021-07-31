@@ -2,7 +2,7 @@ package com.flowerhop.nonleakagetask
 
 import androidx.annotation.WorkerThread
 
-abstract class NonLeakageTask(onInterrupted: OnInterruptedListener? = null): BackgroundTask(onInterrupted) {
+abstract class NonLeakageTask(onInterrupted: OnInterruptedListener? = null): BackgroundTask(onInterrupted), NonLeakage {
     @WorkerThread
     override fun run() {
         if (isCancelled()) return
@@ -15,6 +15,4 @@ abstract class NonLeakageTask(onInterrupted: OnInterruptedListener? = null): Bac
 
         onTaskCompleteListener?.onCompleted()
     }
-
-    abstract fun clearUIReferences()
 }
