@@ -3,9 +3,22 @@ package com.flowerhop.nonleakagetask
 import androidx.annotation.WorkerThread
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class BackgroundTask : Runnable, Cancellable {
+abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnable, Cancellable {
+    interface OnCancelledListener {
+        fun onCancelled()
+    }
+
     final override var isCancelled: AtomicBoolean private set
     private val hasDone = AtomicBoolean(false)
+    var onCancelledListener: OnCancelledListener? = null
+
+    init {
+        this.onCancelledListener = onCancelled
+    }
+
+    init {
+        isCancelled = AtomicBoolean(false)
+    }
 
     @WorkerThread
     override fun run() {
@@ -17,10 +30,10 @@ abstract class BackgroundTask : Runnable, Cancellable {
         hasDone.set(true)
     }
 
-    protected abstract fun doInBackground();
     fun hasDone(): Boolean = hasDone.get()
-
-    init {
-        isCancelled = AtomicBoolean(false)
+    override fun onCancelled() {
+        onCancelledListener?.onCancelled()
     }
+
+    protected abstract fun doInBackground()
 }
