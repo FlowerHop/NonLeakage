@@ -5,7 +5,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.atomic.AtomicBoolean
 
-class ChainTasksExecutor {
+open class ChainTasksExecutor {
     private var isShutdown: AtomicBoolean = AtomicBoolean(false)
     private var threadPool: ExecutorService = Executors.newFixedThreadPool(1)
     private var taskQueue: LinkedBlockingDeque<BackgroundTask> = LinkedBlockingDeque<BackgroundTask>()
@@ -14,7 +14,7 @@ class ChainTasksExecutor {
 
     @Synchronized fun chain(backgroundTask: BackgroundTask) {
         if (isShutdown.get()) return
-        taskQueue.offer(backgroundTask)
+        onOfferingTask(backgroundTask)
 
         if (status == Status.BUSY) return
 
@@ -28,7 +28,7 @@ class ChainTasksExecutor {
             return
         }
 
-        executingTask = taskQueue.poll()
+        executingTask = onPollingTask()
             ?.also {
                 it.onTaskCompleteListener = object : OnTaskCompleteListener {
                     override fun onCompleted() {
@@ -37,22 +37,31 @@ class ChainTasksExecutor {
                     }
                 }
             }
+
         threadPool.execute(executingTask)
     }
 
-    fun shutdown() {
+    protected open fun onOfferingTask(backgroundTask: BackgroundTask) {
+        taskQueue.offer(backgroundTask)
+    }
+
+    protected open fun onPollingTask(): BackgroundTask? {
+        return taskQueue.poll()
+    }
+
+    open fun shutdown() {
         if (!isShutdown.compareAndSet(false, true)) return
         threadPool.shutdown()
         clearTaskQueue()
     }
 
-    fun shutdownNow() {
+    open fun shutdownNow() {
         if (!isShutdown.compareAndSet(false, true)) return
         threadPool.shutdownNow()
         clearTaskQueue()
     }
 
-    private fun clearTaskQueue() {
+    protected open fun clearTaskQueue() {
         executingTask?.onTaskCompleteListener = null
         executingTask = null
         taskQueue = LinkedBlockingDeque<BackgroundTask>()
