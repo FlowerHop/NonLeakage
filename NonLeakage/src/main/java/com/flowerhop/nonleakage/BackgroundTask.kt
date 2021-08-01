@@ -8,13 +8,13 @@ abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnab
         fun onCancelled()
     }
 
-    final override var isCancelled: AtomicBoolean private set
+    final override var cancelled: AtomicBoolean private set
     private val hasDone = AtomicBoolean(false)
     var onCancelledListener: OnCancelledListener? = null
     var onTaskCompleteListener: OnTaskCompleteListener? = null
 
     init {
-        isCancelled = AtomicBoolean(false)
+        cancelled = AtomicBoolean(false)
         this.onCancelledListener = onCancelled
     }
 

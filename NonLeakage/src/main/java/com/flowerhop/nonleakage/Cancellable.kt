@@ -3,12 +3,12 @@ package com.flowerhop.nonleakage
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface Cancellable {
-    val isCancelled: AtomicBoolean
+    val cancelled: AtomicBoolean
 
     fun onCancelled()
 
-    fun isCancelled() = isCancelled.get()
+    fun isCancelled() = cancelled.get()
     fun cancel() {
-        isCancelled.compareAndSet(false, true)
+        cancelled.compareAndSet(false, true)
     }
 }
