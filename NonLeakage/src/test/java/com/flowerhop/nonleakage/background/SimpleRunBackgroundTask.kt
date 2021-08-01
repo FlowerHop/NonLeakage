@@ -1,8 +1,6 @@
-package com.flowerhop.nonleakagetask.background
+package com.flowerhop.nonleakage.background
 
-import com.flowerhop.nonleakagetask.BackgroundTask
-
-class SimpleRunBackgroundTask: BackgroundTask() {
+class SimpleRunBackgroundTask: com.flowerhop.nonleakage.BackgroundTask() {
     companion object {
         private const val TAG = "SimpleRunBackgroundTask"
     }

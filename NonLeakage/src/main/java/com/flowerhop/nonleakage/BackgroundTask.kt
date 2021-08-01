@@ -1,11 +1,10 @@
-package com.flowerhop.nonleakagetask
+package com.flowerhop.nonleakage
 
-import androidx.annotation.WorkerThread
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Runnable, Cancellable {
+abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Runnable,
+    Cancellable {
     interface OnInterruptedListener {
-        @WorkerThread
         fun onInterrupted()
     }
 
@@ -19,7 +18,6 @@ abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Ru
         this.onInterruptedListener = onInterrupted
     }
 
-    @WorkerThread
     override fun run() {
         if (isCancelled()) return
         doInBackground()

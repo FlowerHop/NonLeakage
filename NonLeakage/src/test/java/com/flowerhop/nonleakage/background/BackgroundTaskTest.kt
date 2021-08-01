@@ -1,6 +1,5 @@
-package com.flowerhop.nonleakagetask.background
+package com.flowerhop.nonleakage.background
 
-import com.flowerhop.nonleakagetask.BackgroundTask
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.Executors
@@ -46,7 +45,7 @@ class BackgroundTaskTest {
     fun `Task can be interrupted when running`() {
         // Arrange
         val fakeBackgroundTask = FakeBackgroundTask(2000)
-        fakeBackgroundTask.onInterruptedListener = object : BackgroundTask.OnInterruptedListener {
+        fakeBackgroundTask.onInterruptedListener = object : com.flowerhop.nonleakage.BackgroundTask.OnInterruptedListener {
             override fun onInterrupted() {
                 println("fakeBackgroundTask is interrupted")
             }
@@ -70,7 +69,7 @@ class BackgroundTaskTest {
         // Arrange
         var onCancelledCalled = false
         val fakeBackgroundTask = FakeBackgroundTask(2000)
-        fakeBackgroundTask.onInterruptedListener = object : BackgroundTask.OnInterruptedListener {
+        fakeBackgroundTask.onInterruptedListener = object : com.flowerhop.nonleakage.BackgroundTask.OnInterruptedListener {
             override fun onInterrupted() {
                 println("fakeBackgroundTask is interrupted")
                 onCancelledCalled = true

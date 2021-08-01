@@ -1,4 +1,4 @@
-package com.flowerhop.nonleakagetask
+package com.flowerhop.nonleakage
 
 interface NonLeakage {
     fun clearUIReferences()

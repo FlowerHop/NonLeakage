@@ -1,9 +1,7 @@
-package com.flowerhop.nonleakagetask.background
-
-import com.flowerhop.nonleakagetask.BackgroundTask
+package com.flowerhop.nonleakage.background
 
 
-class FakeBackgroundTask(private val time: Long): BackgroundTask() {
+class FakeBackgroundTask(private val time: Long): com.flowerhop.nonleakage.BackgroundTask() {
     companion object {
         private const val TAG = "FakeBackgroundTask"
         private const val SLEEP_PERIOD = 50L

@@ -1,12 +1,10 @@
-package com.flowerhop.nonleakagetask
+package com.flowerhop.nonleakage
 
-import androidx.annotation.WorkerThread
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface Cancellable {
     val isCancelled: AtomicBoolean
 
-    @WorkerThread
     fun onCancelled()
 
     fun isCancelled() = isCancelled.get()

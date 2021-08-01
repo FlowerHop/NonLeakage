@@ -1,4 +1,4 @@
-package com.flowerhop.nonleakagetask
+package com.flowerhop.nonleakage
 
 import java.util.concurrent.LinkedBlockingDeque
 

@@ -1,2 +1,3 @@
 rootProject.name = "NonLeakageTask"
 include ':app'
+include ':NonLeakage'

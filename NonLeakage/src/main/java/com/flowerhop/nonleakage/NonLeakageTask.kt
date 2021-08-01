@@ -1,9 +1,8 @@
-package com.flowerhop.nonleakagetask
+package com.flowerhop.nonleakage
 
-import androidx.annotation.WorkerThread
 
-abstract class NonLeakageTask(onInterrupted: OnInterruptedListener? = null): BackgroundTask(onInterrupted), NonLeakage {
-    @WorkerThread
+abstract class NonLeakageTask(onInterrupted: OnInterruptedListener? = null): BackgroundTask(onInterrupted),
+    NonLeakage {
     override fun run() {
         if (isCancelled()) return
         doInBackground()

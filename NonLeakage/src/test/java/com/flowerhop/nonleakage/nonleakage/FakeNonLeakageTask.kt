@@ -1,8 +1,6 @@
-package com.flowerhop.nonleakagetask.nonleakage
+package com.flowerhop.nonleakage.nonleakage
 
-import com.flowerhop.nonleakagetask.NonLeakageTask
-
-class FakeNonLeakageTask(private val time: Long, private val taskName: String): NonLeakageTask() {
+class FakeNonLeakageTask(private val time: Long, private val taskName: String): com.flowerhop.nonleakage.NonLeakageTask() {
     companion object {
         private const val TAG = "FakeNonLeakageTask"
         private const val SLEEP_PERIOD = 50L

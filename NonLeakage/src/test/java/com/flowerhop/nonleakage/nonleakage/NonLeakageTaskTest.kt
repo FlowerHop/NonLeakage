@@ -1,6 +1,5 @@
-package com.flowerhop.nonleakagetask.nonleakage
+package com.flowerhop.nonleakage.nonleakage
 
-import com.flowerhop.nonleakagetask.OnTaskCompleteListener
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.Executors
@@ -37,19 +36,19 @@ class NonLeakageTaskTest {
         val taskB = FakeNonLeakageTask(50, "Task B")
         val taskC = FakeNonLeakageTask(50, "Task C")
 
-        taskA.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskA.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 executors.execute(taskB)
             }
         }
-        taskB.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskB.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 executors.execute(taskC)
             }
         }
 
         var done = false
-        taskC.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskC.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 done = true
             }
@@ -67,12 +66,12 @@ class NonLeakageTaskTest {
         val taskB = FakeNonLeakageTask(100, "Task B")
         val taskC = FakeNonLeakageTask(100, "Task C")
 
-        taskA.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskA.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 executors.execute(taskB)
             }
         }
-        taskB.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskB.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
 
                 executors.execute(taskC)
@@ -80,7 +79,7 @@ class NonLeakageTaskTest {
         }
 
         var done = false
-        taskC.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskC.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 done = true
             }
@@ -99,19 +98,19 @@ class NonLeakageTaskTest {
         val taskB = FakeNonLeakageTask(100, "Task B")
         val taskC = FakeNonLeakageTask(100, "Task C")
 
-        taskA.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskA.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 executors.execute(taskB)
             }
         }
-        taskB.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskB.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 executors.execute(taskC)
             }
         }
 
         var done = false
-        taskC.onTaskCompleteListener = object : OnTaskCompleteListener {
+        taskC.onTaskCompleteListener = object : com.flowerhop.nonleakage.OnTaskCompleteListener {
             override fun onCompleted() {
                 done = true
             }

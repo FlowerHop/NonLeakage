@@ -1,8 +1,6 @@
-package com.flowerhop.nonleakagetask.nonleakage
+package com.flowerhop.nonleakage.nonleakage
 
-import com.flowerhop.nonleakagetask.NonLeakageTask
-
-class SimpleRunNonLeakageTask: NonLeakageTask() {
+class SimpleRunNonLeakageTask: com.flowerhop.nonleakage.NonLeakageTask() {
     companion object {
         private const val TAG = "SimpleRunNonLeakageTask"
     }
