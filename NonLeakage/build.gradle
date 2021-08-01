@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+//    id 'maven-publish'
 }
 
 android {
@@ -30,6 +31,51 @@ android {
         jvmTarget = '1.8'
     }
 }
+//
+//apply from: rootProject.file("github.properties")
+//
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            release(MavenPublication) {
+//                from components.release
+//
+//                // Replace with your own group ID.
+//                groupId 'com.github.flowerhop'
+//
+//                // Replace with the name of your library
+//                artifactId 'nonLeakage'
+//                version '0.1.0'
+//            }
+//
+//            debug(MavenPublication) {
+//                from components.debug
+//
+//                // Replace with your own group ID.
+//                groupId 'com.github.flowerhop'
+//
+//                // Replace with the name of your library
+//                artifactId 'nonLeakage'
+//                version '0.1.0'
+//            }
+//        }
+//
+//        repositories {
+//            maven {
+//                name = "NonLeakage"
+//
+//                // Replace GITHUB_USERID with your personal or organisation user ID and
+//                // REPOSITORY with the name of the repository on GitHub
+//                url = uri("https://maven.pkg.github.com/flowerhop/NonLeakage")
+//
+//                credentials {
+//                    username = user
+//                    password = key
+//                }
+//            }
+//        }
+//    }
+//}
 
 dependencies {
 
