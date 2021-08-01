@@ -1,14 +1,16 @@
 package com.flowerhop.nonleakage.nonleakage
 
-class FakeNonLeakageTask(private val time: Long, private val taskName: String): com.flowerhop.nonleakage.NonLeakageTask() {
+import com.flowerhop.nonleakage.NonLeakageTask
+
+class FakeNonLeakageTask(private val time: Long, private val taskName: String): NonLeakageTask() {
     companion object {
         private const val TAG = "FakeNonLeakageTask"
         private const val SLEEP_PERIOD = 50L
     }
 
     init {
-        onInterruptedListener = object : OnInterruptedListener {
-            override fun onInterrupted() {
+        onCancelledListener = object : OnCancelledListener {
+            override fun onCancelled() {
                 println("$TAG $taskName is triggered onInterrupted")
             }
 

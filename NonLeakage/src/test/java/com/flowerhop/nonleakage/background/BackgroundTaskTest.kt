@@ -1,5 +1,6 @@
 package com.flowerhop.nonleakage.background
 
+import com.flowerhop.nonleakage.BackgroundTask
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.Executors
@@ -20,7 +21,7 @@ class BackgroundTaskTest {
     @Test
     fun taskCanBeCancelled() {
         // Arrange
-        val cancelledBackgroundTask = InterruptedBackgroundTask()
+        val cancelledBackgroundTask = CancelledBackgroundTask()
 
         // Act
         cancelledBackgroundTask.run()
@@ -45,9 +46,9 @@ class BackgroundTaskTest {
     fun `Task can be interrupted when running`() {
         // Arrange
         val fakeBackgroundTask = FakeBackgroundTask(2000)
-        fakeBackgroundTask.onInterruptedListener = object : com.flowerhop.nonleakage.BackgroundTask.OnInterruptedListener {
-            override fun onInterrupted() {
-                println("fakeBackgroundTask is interrupted")
+        fakeBackgroundTask.onCancelledListener = object : BackgroundTask.OnCancelledListener {
+            override fun onCancelled() {
+                println("fakeBackgroundTask is cancelled")
             }
         }
 
@@ -69,9 +70,9 @@ class BackgroundTaskTest {
         // Arrange
         var onCancelledCalled = false
         val fakeBackgroundTask = FakeBackgroundTask(2000)
-        fakeBackgroundTask.onInterruptedListener = object : com.flowerhop.nonleakage.BackgroundTask.OnInterruptedListener {
-            override fun onInterrupted() {
-                println("fakeBackgroundTask is interrupted")
+        fakeBackgroundTask.onCancelledListener = object : BackgroundTask.OnCancelledListener {
+            override fun onCancelled() {
+                println("fakeBackgroundTask is cancelled")
                 onCancelledCalled = true
             }
         }
@@ -81,7 +82,7 @@ class BackgroundTaskTest {
 
         // Act
         Thread.sleep(100)
-        fakeBackgroundTask.onInterruptedListener = null
+        fakeBackgroundTask.onCancelledListener = null
         fakeBackgroundTask.cancel()
         // Sleep for watch log
         Thread.sleep(1000)

@@ -2,24 +2,23 @@ package com.flowerhop.nonleakage
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Runnable,
+abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnable,
     Cancellable {
-    interface OnInterruptedListener {
-        fun onInterrupted()
+    interface OnCancelledListener {
+        fun onCancelled()
     }
 
     final override var isCancelled: AtomicBoolean private set
     protected val hasDone = AtomicBoolean(false)
-    var onInterruptedListener: OnInterruptedListener? = null
+    var onCancelledListener: OnCancelledListener? = null
     var onTaskCompleteListener: OnTaskCompleteListener? = null
 
     init {
         isCancelled = AtomicBoolean(false)
-        this.onInterruptedListener = onInterrupted
+        this.onCancelledListener = onCancelled
     }
 
     override fun run() {
-        if (isCancelled()) return
         doInBackground()
         hasDone.set(true)
 
@@ -32,7 +31,7 @@ abstract class BackgroundTask(onInterrupted: OnInterruptedListener? = null) : Ru
     fun hasDone(): Boolean = hasDone.get()
 
     override fun onCancelled() {
-        onInterruptedListener?.onInterrupted()
+        onCancelledListener?.onCancelled()
     }
 
     protected abstract fun doInBackground()

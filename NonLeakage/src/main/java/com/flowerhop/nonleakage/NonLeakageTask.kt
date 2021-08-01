@@ -1,10 +1,9 @@
 package com.flowerhop.nonleakage
 
 
-abstract class NonLeakageTask(onInterrupted: OnInterruptedListener? = null): BackgroundTask(onInterrupted),
+abstract class NonLeakageTask(onCancelled: OnCancelledListener? = null): BackgroundTask(onCancelled),
     NonLeakage {
     override fun run() {
-        if (isCancelled()) return
         doInBackground()
         hasDone.set(true)
         clearUIReferences()
