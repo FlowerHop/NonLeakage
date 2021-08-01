@@ -21,11 +21,15 @@ abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnab
     override fun run() {
         doInBackground()
         hasDone.set(true)
+        notifyResult()
+        onTaskCompleteListener?.onCompleted()
+    }
 
+    protected open fun notifyResult() {
         if (isCancelled())
             onCancelled()
-
-        onTaskCompleteListener?.onCompleted()
+        else
+            onCompleted()
     }
 
     fun hasDone(): Boolean = hasDone.get()
@@ -33,6 +37,8 @@ abstract class BackgroundTask(onCancelled: OnCancelledListener? = null) : Runnab
     override fun onCancelled() {
         onCancelledListener?.onCancelled()
     }
+
+    protected open fun onCompleted() {}
 
     protected abstract fun doInBackground()
 }
