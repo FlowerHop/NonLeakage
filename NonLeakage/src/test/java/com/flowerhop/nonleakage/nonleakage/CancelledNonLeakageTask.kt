@@ -7,14 +7,6 @@ class CancelledNonLeakageTask: NonLeakageTask() {
         private const val TAG = "CancelledNonLeakageTask"
     }
 
-    init {
-        onCancelledListener = object : OnCancelledListener {
-            override fun onCancelled() {
-                println("$TAG trigger onCancelled")
-            }
-        }
-    }
-
     override fun doInBackground() {
         println("$TAG doInBackground...")
         println("$TAG Cancel!")
@@ -23,5 +15,9 @@ class CancelledNonLeakageTask: NonLeakageTask() {
 
     override fun clearUIReferences() {
         println("$TAG clearUIReferences")
+    }
+
+    override fun onCancelled() {
+        println("$TAG trigger onCancelled")
     }
 }

@@ -1,7 +1,7 @@
 package com.flowerhop.nonleakage
 
 
-abstract class NonLeakageTask(onCancelled: OnCancelledListener? = null): BackgroundTask(onCancelled),
+abstract class NonLeakageTask: BackgroundTask(),
     NonLeakage {
     override fun notifyResult() {
         super.notifyResult()

@@ -23,4 +23,8 @@ class FakeBackgroundTask(private val time: Long): BackgroundTask() {
 
         println("$TAG end doInBackground at $passedTime")
     }
+
+    override fun onCancelled() {
+        println("fakeBackgroundTask is cancelled")
+    }
 }

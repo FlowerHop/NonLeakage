@@ -8,15 +8,6 @@ class FakeNonLeakageTask(private val time: Long, private val taskName: String): 
         private const val SLEEP_PERIOD = 50L
     }
 
-    init {
-        onCancelledListener = object : OnCancelledListener {
-            override fun onCancelled() {
-                println("$TAG $taskName is triggered onInterrupted")
-            }
-
-        }
-    }
-
     private var passedTime = 0L
 
     override fun doInBackground() {
@@ -34,5 +25,9 @@ class FakeNonLeakageTask(private val time: Long, private val taskName: String): 
 
     override fun clearUIReferences() {
         println("$TAG: $taskName clearUIReferences")
+    }
+
+    override fun onCancelled() {
+        println("$TAG $taskName is triggered onCancelled")
     }
 }

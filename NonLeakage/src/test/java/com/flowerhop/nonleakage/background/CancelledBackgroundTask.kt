@@ -7,17 +7,13 @@ class CancelledBackgroundTask: BackgroundTask() {
         private const val TAG = "CancelledBackgroundTask"
     }
 
-    init {
-        onCancelledListener = object : OnCancelledListener {
-            override fun onCancelled() {
-                println("$TAG trigger onCancelled...")
-            }
-        }
-    }
-
     override fun doInBackground() {
         println("$TAG doInBackground...")
         println("$TAG Cancel!")
         cancel()
+    }
+
+    override fun onCancelled() {
+        println("$TAG trigger onCancelled...")
     }
 }
