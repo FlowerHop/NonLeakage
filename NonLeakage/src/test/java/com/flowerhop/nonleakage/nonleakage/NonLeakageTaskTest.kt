@@ -19,7 +19,7 @@ class NonLeakageTaskTest {
     }
 
     @Test
-    fun taskCanBeInterrupted() {
+    fun taskCanBeCancelled() {
         // Arrange
         val task = CancelledNonLeakageTask()
 
