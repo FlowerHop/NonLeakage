@@ -32,7 +32,6 @@ open class ChainTasksExecutor {
             ?.also {
                 it.onTaskCompleteListener = object : OnTaskCompleteListener {
                     override fun onCompleted() {
-                        if (it.isCancelled()) return
                         runNext()
                     }
                 }

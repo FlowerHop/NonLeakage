@@ -3,7 +3,7 @@ package com.flowerhop.nonleakage.background
 import com.flowerhop.nonleakage.BackgroundTask
 
 
-class FakeBackgroundTask(private val time: Long): BackgroundTask() {
+class FakeBackgroundTask(private val time: Long, private val name: String = TAG): BackgroundTask() {
     companion object {
         private const val TAG = "FakeBackgroundTask"
         private const val SLEEP_PERIOD = 50L
@@ -12,19 +12,23 @@ class FakeBackgroundTask(private val time: Long): BackgroundTask() {
     private var passedTime = 0L
 
     override fun doInBackground() {
-        println("$TAG start doInBackground for $time")
+        printMsg("start doInBackground for $time")
 
         while(passedTime < time) {
             if (isCancelled()) break
-            println("$TAG do at $passedTime")
+            printMsg("do at $passedTime")
             Thread.sleep(SLEEP_PERIOD)
             passedTime += SLEEP_PERIOD
         }
 
-        println("$TAG end doInBackground at $passedTime")
+        printMsg("end doInBackground at $passedTime")
     }
 
     override fun onCancelled() {
-        println("fakeBackgroundTask is cancelled")
+        printMsg("fakeBackgroundTask is cancelled")
+    }
+
+    private fun printMsg(msg: String) {
+        println("$TAG $name $msg")
     }
 }
